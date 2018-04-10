@@ -1,6 +1,5 @@
 .DS_Store
 node_modules/
-/dist
 
 /tests/e2e/reports/
 selenium-debug.log
@@ -22,3 +21,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 coverage/
+src/config/settings.js
