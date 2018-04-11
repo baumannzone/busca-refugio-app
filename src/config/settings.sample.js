@@ -1,4 +1,4 @@
-const config = {
+export default {
   apiKey: '',
   authDomain: '',
   databaseURL: '',
