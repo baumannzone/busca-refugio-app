@@ -22,3 +22,8 @@ yarn-error.log*
 *.sln
 coverage/
 src/config/settings.js
+dist
+dist/css
+dist/favicon.ico
+dist/index.html
+dist/js
