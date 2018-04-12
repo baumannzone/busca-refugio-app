@@ -78,15 +78,19 @@
             if ( res.data.guildName === 'Busca Refugio' ) {
               this.snackbar = true;
               this.color = 'success';
-              this.textoAviso = `El usuario ${res.data.battleTag} pertenece al CLAN`;
+              this.textoAviso = `El usuario ${res.data.battleTag} pertenece al clan "${res.data.guildName}"`;
+            }
+            else {
+              this.snackbar = true;
+              this.color = 'info';
+              this.textoAviso = `El usuario ${res.data.battleTag} pertenece al clan "${res.data.guildName}"`;
             }
           } )
           .catch( ( err ) => {
+            console.debug( err.message );
             this.snackbar = true;
             this.color = 'error';
-            this.textoAviso = `El usuario ${tag} no es del clan`;
-            console.debug( err );
-            console.debug( 'ERRRR' );
+            this.textoAviso = `Usuario ${tag} no encontrado`;
           } );
       },
       getUsers() {
