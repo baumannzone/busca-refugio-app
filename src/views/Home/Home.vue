@@ -3,14 +3,14 @@
     <v-app>
       <v-container>
         <v-snackbar
-            color="success"
+            :color="color"
             :timeout="6000"
             top
             right
             v-model="snackbar"
         >
           {{ textoAviso }}
-          <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+          <v-btn flat color="white" @click.native="snackbar = false">Close</v-btn>
         </v-snackbar>
 
         <!--<ul>
@@ -24,13 +24,16 @@
               label="Battle-tag"
               v-model="name"
               :rules="nameRules"
+              placeholder="SuperRambo#2613"
+              hint="Distinge entre mayúsculas y minúsculas"
+              persistent-hint
               required>
           </v-text-field>
           <!--<v-text-field-->
-              <!--label="E-mail"-->
-              <!--v-model="email"-->
-              <!--:rules="emailRules"-->
-              <!--required>-->
+          <!--label="E-mail"-->
+          <!--v-model="email"-->
+          <!--:rules="emailRules"-->
+          <!--required>-->
           <!--</v-text-field>-->
           <v-btn @click="submit" color="info">Comprobar</v-btn>
         </v-form>
@@ -51,6 +54,7 @@
     data() {
       return {
         snackbar: false,
+        color: 'success',
         textoAviso: '',
         users: [],
         valid: true,
@@ -72,11 +76,15 @@
           .then( ( res ) => {
             console.debug( res.data );
             if ( res.data.guildName === 'Busca Refugio' ) {
-              this.textoAviso = `El usuario ${res.data.battleTag} pertenece al CLAN`;
               this.snackbar = true;
+              this.color = 'success';
+              this.textoAviso = `El usuario ${res.data.battleTag} pertenece al CLAN`;
             }
           } )
           .catch( ( err ) => {
+            this.snackbar = true;
+            this.color = 'error';
+            this.textoAviso = `El usuario ${tag} no es del clan`;
             console.debug( err );
             console.debug( 'ERRRR' );
           } );
