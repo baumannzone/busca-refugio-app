@@ -1,5 +1,5 @@
 <template>
-  <div class="pag-1">
+  <section class="battle-tag-create">
     <v-snackbar :color="color" :timeout="6000" top right v-model="showSnackbar">
       {{ snackbarMsg }}
       <v-btn flat color="white" @click.native="snackbar = false">Close</v-btn>
@@ -16,9 +16,11 @@
           required>
       </v-text-field>
 
-      <v-btn @click="submit" color="info">Comprobar</v-btn>
+      <div align="right">
+        <v-btn @click="submit" color="info">Registrar Battle Tag</v-btn>
+      </div>
     </v-form>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -34,7 +36,7 @@
         color: 'success',
         snackbarMsg: '',
         isFormValid: true,
-        battleTag: '',
+        battleTag: 'SuperRambo#2613',
         battleTagRules: [
           v => !!v || 'Battle-tag is required',
         ],
@@ -44,18 +46,53 @@
       getUserByBattleTag( tag ) {
         service.getUserByBattleTag( tag )
           .then( ( res ) => {
-            if ( res.data.guildName === 'Busca Refugio' ) {
-              this.showSnackbar = true;
-              this.color = 'success';
-              this.snackbarMsg = `El usuario ${res.data.battleTag} pertenece al clan "${res.data.guildName}"`;
-            }
-            else {
-              this.showSnackbar = true;
-              this.color = 'info';
-              this.snackbarMsg = `El usuario ${res.data.battleTag} pertenece al clan "${res.data.guildName}"`;
-            }
+            const promise = new Promise( ( resolve, reject ) => {
+              if ( res.data.guildName === 'Busca Refugio' ) {
+                resolve( res.data );
+              }
+              else {
+                this.showSnackbar = true;
+                this.color = 'info';
+                this.snackbarMsg = `El usuario ${res.data.battleTag} pertenece al clan "${res.data.guildName}"`;
+                reject( new Error( 'Este usuario no es del clan Busca Refugio' ) );
+              }
+            } );
+            return promise;
+          } )
+          .then( ( res ) => {
+            service.getBattleTag( tag )
+              .then( ( result ) => {
+                if ( !result.exists ) {
+                  // Guardarlo si no existe en firebase DB
+                  const data = {
+                    battleTag: tag,
+                    created: new Date(),
+                  };
+                  // Guardar usuario en BD
+                  service.addBattleTag( tag, data )
+                    .then( () => {
+                      this.showSnackbar = true;
+                      this.color = 'success';
+                      this.snackbarMsg = `El usuario ${res.battleTag} ha sido guardado en la aplicación.`;
+                      console.debug( `El usuario ${res.battleTag} se ha guardado correctamente` );
+                    } )
+                    .catch( ( error ) => {
+                      console.debug( 'ERRORES2:', error );
+                    } );
+                }
+                else {
+                  // Este usuario ya existe en la BD
+                  this.showSnackbar = true;
+                  this.color = 'info';
+                  this.snackbarMsg = `El usuario ${res.battleTag} ya está dado de alta en la aplicación.`;
+                }
+              } )
+              .catch( ( err ) => {
+                console.debug( err );
+              } );
           } )
           .catch( ( err ) => {
+            console.debug( err );
             this.showSnackbar = true;
             this.color = 'error';
             this.snackbarMsg = `El usuario ${tag} no existe`;

@@ -12,8 +12,13 @@ export default {
   getUserByBattleTag( tag ) {
     return axios.get( `profile/${tag}/` );
   },
-  addBattleTag( tag ) {
-    console.debug( tag );
+
+  addBattleTag( tag, data ) {
+    return db.collection( 'battle-tags' ).doc( tag ).set( data );
+  },
+
+  getBattleTag( tag ) {
+    return db.collection( 'battle-tags' ).doc( tag ).get();
   },
 
   getUsers() {
