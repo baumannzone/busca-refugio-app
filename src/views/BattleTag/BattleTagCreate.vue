@@ -36,7 +36,7 @@
         color: 'success',
         snackbarMsg: '',
         isFormValid: true,
-        battleTag: 'SuperRambo#2613',
+        battleTag: '',
         battleTagRules: [
           v => !!v || 'Battle-tag is required',
         ],
