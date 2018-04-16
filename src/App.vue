@@ -17,7 +17,7 @@
       <v-toolbar-title>Busca Refugio</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fluid fill-heigth>
         <router-view></router-view>
       </v-container>
     </v-content>
@@ -55,6 +55,5 @@
     -webkit-font-smoothing antialiased
     -moz-osx-font-smoothing grayscale
     color #2c3e50
-
 
 </style>
