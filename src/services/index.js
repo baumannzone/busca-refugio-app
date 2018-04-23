@@ -22,6 +22,6 @@ export default {
   },
 
   getUsers() {
-    return db.collection( 'users' );
+    return db.collection( 'bnet-users-data' ).get();
   },
 };
