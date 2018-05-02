@@ -9,6 +9,13 @@ const router = new Router( {
   routes: [
     { path: '/', name: 'Home', component: Home },
     { path: '/register', name: 'BattleTag-Create', component: BattleTagCreate },
+    {
+      path: '/repository',
+      name: 'Repository',
+      beforeEnter() {
+        window.location.href = 'https://github.com/baumannzone/busca-refugio-app';
+      },
+    },
   ],
 } );
 

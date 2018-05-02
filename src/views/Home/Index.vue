@@ -9,18 +9,17 @@
           class="elevation-1">
         <template slot="items" slot-scope="props">
           <td>
-            {{ props.item.id }}
+            <b>{{ props.item.id }}</b>
           </td>
-          <td>{{ props.item.guildName }}</td>
+          <!--<td>{{ props.item.guildName }}</td>-->
           <td>
-            <ul v-for="(hero, index) in props.item.heroes" :key="index">
-              <li>
-                <pre>{{ hero }}</pre>
-
-                <a class="hero-portrait" :class="setHeroClass(hero)" :href="heroProfile(props.item.tagWeb, hero.id)"
-                   target="_blank">
-                  {{ hero.class }}
-                  <span class="small-seasonal-leaf"></span>
+            <ul class="hero-list">
+              <li v-for="(hero, index) in props.item.heroes" :key="index">
+                <a :href="heroProfile(props.item.tagWeb, hero.id)" target="_blank">
+                  <span class="hero-portrait" :class="setHeroClass(hero)">
+                    <span v-if="hero.seasonal" :class="{'small-seasonal-leaf': hero.seasonal}"></span>
+                  </span>
+                  <small>{{ hero.class }}</small>
                 </a>
               </li>
             </ul>
@@ -49,7 +48,7 @@
           {
             text: 'BattleTag', align: 'left', sortable: true, value: 'battleTag',
           },
-          { text: 'Clan', value: 'clan' },
+          // { text: 'Clan', value: 'clan' },
           { text: 'Heroes', value: '' },
           // { text: 'Heroes', value: '' },
         ],
@@ -88,5 +87,10 @@
 </script>
 
 <style lang="stylus">
-
+  .hero-list
+    list-style none
+    li
+      display inline-block
+      width 150px
+      height 100px
 </style>
