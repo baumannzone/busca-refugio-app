@@ -6,8 +6,7 @@
           :headers="headers"
           :items="users"
           hide-actions
-          class="elevation-1"
-      >
+          class="elevation-1">
         <template slot="items" slot-scope="props">
           <td>
             {{ props.item.id }}
@@ -16,7 +15,13 @@
           <td>
             <ul v-for="(hero, index) in props.item.heroes" :key="index">
               <li>
-                <a :href="heroProfile(props.item.tagWeb, hero.id)" target="_blank">{{ hero.class }}</a>
+                <pre>{{ hero }}</pre>
+
+                <a class="hero-portrait" :class="setHeroClass(hero)" :href="heroProfile(props.item.tagWeb, hero.id)"
+                   target="_blank">
+                  {{ hero.class }}
+                  <span class="small-seasonal-leaf"></span>
+                </a>
               </li>
             </ul>
           </td>
@@ -54,7 +59,9 @@
       getUsersData() {
         service.getUsers()
           .then( ( querySnapshot ) => {
+            console.debug( querySnapshot[ 0 ] );
             querySnapshot.forEach( ( doc ) => {
+              // Convertir de User#1234 a User-1234
               const arr = doc.id.split( '#' );
               const tagWeb = `${arr[ 0 ]}-${arr[ 1 ]}`;
               // doc.data() is never undefined for query doc snapshots
@@ -67,6 +74,14 @@
       },
       heroProfile( tag, heroId ) {
         return `https://eu.diablo3.com/es/profile/${tag}/hero/${heroId}`;
+      },
+      setHeroClass( hero ) {
+        const slug = hero.classSlug;
+        const gender = this.setHeroGender( hero.gender );
+        return `${slug}-${gender}`;
+      },
+      setHeroGender( gender ) {
+        return gender === 0 ? 'male' : 'female';
       },
     },
   };
