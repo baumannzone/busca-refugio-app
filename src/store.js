@@ -6,7 +6,21 @@ Vue.use( Vuex );
 export default new Vuex.Store( {
   state: {
     GUILD_NAME: 'Busca Refugio',
+    auth: {
+      isLogged: false,
+      displayName: null,
+      id: null,
+    },
   },
-  mutations: {},
+  getters: {
+    isUserLoggedIn: state => state.auth.isLogged,
+  },
+  mutations: {
+    logUserIn( state, userData ) {
+      state.auth.isLogged = true;
+      state.auth.id = userData.uid;
+      state.auth.user = userData.displayName;
+    },
+  },
   actions: {},
 } );

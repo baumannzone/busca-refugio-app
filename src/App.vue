@@ -41,6 +41,7 @@
           { title: 'Inicio', icon: 'home', to: 'Home' },
           { title: 'Registrar Battle-Tag', icon: 'person_add', to: 'BattleTag-Create' },
           { title: 'Repositorio', icon: 'code', to: 'Repository' },
+          { title: 'Login', icon: 'security', to: 'Login' },
         ],
       };
     },
