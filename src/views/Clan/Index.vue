@@ -1,11 +1,7 @@
 <template>
-  <section class="login">
+  <section class="clan">
     <h1>Logeado: {{ isLoggedIn }}</h1>
-    <v-form v-model="loginForm">
-      <v-text-field label="E-mail" v-model="email" :rules="emailRules" required></v-text-field>
-      <v-text-field label="Password" v-model="password" :rules="passwordRules" required type="password"></v-text-field>
-      <v-btn @click="submitLoginForm" :disabled="!loginForm">Click</v-btn>
-    </v-form>
+    <h3>Clan</h3>
   </section>
 </template>
 
@@ -19,35 +15,29 @@
     },
     data() {
       return {
-        loginForm: false, // valid
-        email: 'baumannzone@gmail.com',
-        emailRules: [
-          v => !!v || 'Email is required',
+        valid: false,
+        name: '',
+        nameRules: [
+          v => !!v || 'Username is required',
         ],
-        password: '',
-        passwordRules: [
+        email: '',
+        emailRules: [
           v => !!v || 'Password is required',
         ],
       };
     },
     methods: {
-      submitLoginForm() {
-        if ( this.$refs.validForm.validate() ) {
-          // Native form submission is not yet supported
-          console.debug( this.email, this.password );
-          // this.logInUser();
-        }
-      },
-      logInUser( email, pass ) {
-        service.logInUser( email, pass )
+      logInUser() {
+        service.logInUser( 'admin@baumannzone.com', '123123' )
           .then( ( res ) => {
+            // const { user } = result;
+            console.debug( 'User Data:' );
+            console.debug( Object.keys( res ) );
             console.debug( res );
             this.$store.commit( 'logUserIn', res );
-            this.$router.push( { name: 'Home' } );
           } )
           .catch( ( error ) => {
             // Handle Errors here.
-            this.$store.commit( 'logUserOut' );
             const errorCode = error.code;
             const errorMessage = error.message;
             console.debug( errorCode );

@@ -5,11 +5,11 @@ Vue.use( Vuex );
 
 export default new Vuex.Store( {
   state: {
-    GUILD_NAME: 'Busca Refugio',
     auth: {
       isLogged: false,
       displayName: null,
-      id: null,
+      uid: null,
+      tokenId: null,
     },
   },
   getters: {
@@ -17,9 +17,20 @@ export default new Vuex.Store( {
   },
   mutations: {
     logUserIn( state, userData ) {
-      state.auth.isLogged = true;
-      state.auth.id = userData.uid;
-      state.auth.user = userData.displayName;
+      state.auth = {
+        isLogged: true,
+        displayName: userData.displayName,
+        uid: userData.uid,
+        tokenId: userData.qa,
+      };
+    },
+    logUserOut( state ) {
+      state.auth = {
+        isLogged: false,
+        displayName: null,
+        uid: null,
+        tokenId: null,
+      };
     },
   },
   actions: {},
