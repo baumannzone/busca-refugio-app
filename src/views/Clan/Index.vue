@@ -1,53 +1,22 @@
 <template>
   <section class="clan">
-    <h1>Logeado: {{ isLoggedIn }}</h1>
+    <h1>Logeado: {{ isLogged }}</h1>
     <h3>Clan</h3>
   </section>
 </template>
 
 <script>
-  import service from '@/services/auth';
+  // import service from '@/services/auth';
   import { mapGetters } from 'vuex';
 
   export default {
-    async created() {
-      console.debug( 'Created..' );
-    },
     data() {
-      return {
-        valid: false,
-        name: '',
-        nameRules: [
-          v => !!v || 'Username is required',
-        ],
-        email: '',
-        emailRules: [
-          v => !!v || 'Password is required',
-        ],
-      };
+      return {};
     },
-    methods: {
-      logInUser() {
-        service.logInUser( 'admin@baumannzone.com', '123123' )
-          .then( ( res ) => {
-            // const { user } = result;
-            console.debug( 'User Data:' );
-            console.debug( Object.keys( res ) );
-            console.debug( res );
-            this.$store.commit( 'logUserIn', res );
-          } )
-          .catch( ( error ) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.debug( errorCode );
-            console.debug( errorMessage );
-          } );
-      },
-    },
+    methods: {},
     computed: {
       ...mapGetters( {
-        isLoggedIn: 'isUserLoggedIn',
+        isLogged: 'isUserLogged',
       } ),
     },
   };

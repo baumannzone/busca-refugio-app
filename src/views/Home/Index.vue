@@ -1,40 +1,46 @@
 <template>
-  <div class="page">
-    <h1>Main page</h1>
-    <div class="main-table">
-      <v-data-table
-          :headers="headers"
-          :items="users"
-          hide-actions
-          class="elevation-1">
-        <template slot="items" slot-scope="props">
-          <td>
-            <b>{{ props.item.id }}</b>
-          </td>
-          <!--<td>{{ props.item.guildName }}</td>-->
-          <td>
-            <ul class="hero-list">
-              <li v-for="(hero, index) in props.item.heroes" :key="index">
-                <a :href="heroProfile(props.item.tagWeb, hero.id)" target="_blank">
-                  <span class="hero-portrait" :class="setHeroClass(hero)">
-                    <span v-if="hero.seasonal" :class="{'small-seasonal-leaf': hero.seasonal}"></span>
-                  </span>
-                  <small>{{ hero.class }}</small>
-                </a>
-              </li>
-            </ul>
-          </td>
-        </template>
-      </v-data-table>
-    </div>
+  <div class="main-page">
+    <template v-if="isUserDataLoding">
+      <LoadingCenter/>
+    </template>
+    <template v-else>
+      <div class="main-table">
+        <v-data-table
+            :headers="headers"
+            :items="users"
+            hide-actions
+            class="elevation-1">
+          <template slot="items" slot-scope="props">
+            <td>
+              <b>{{ props.item.id }}</b>
+            </td>
+            <!--<td>{{ props.item.guildName }}</td>-->
+            <td>
+              <ul class="hero-list">
+                <li v-for="(hero, index) in props.item.heroes" :key="index">
+                  <heroPortraitBox
+                      :hero="hero"
+                      :set-hero-class="setHeroClass(hero)"
+                      :hero-profile="heroProfileLink(props.item.tagWeb, hero.id)"
+                  />
+                </li>
+              </ul>
+            </td>
+          </template>
+        </v-data-table>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
   import service from '@/services/index';
+  import LoadingCenter from '@/components/LoadingCenter.vue';
+  import HeroPortraitBox from '@/components/HeroPortraitBox.vue';
 
   export default {
     name: 'home',
+    components: { HeroPortraitBox, LoadingCenter },
     async created() {
       this.isUserDataLoding = true;
       await this.getUsersData();
@@ -56,9 +62,8 @@
     },
     methods: {
       getUsersData() {
-        service.getUsers()
+        return service.getUsers()
           .then( ( querySnapshot ) => {
-            console.debug( querySnapshot[ 0 ] );
             querySnapshot.forEach( ( doc ) => {
               // Convertir de User#1234 a User-1234
               const arr = doc.id.split( '#' );
@@ -71,7 +76,7 @@
             console.debug( err );
           } );
       },
-      heroProfile( tag, heroId ) {
+      heroProfileLink( tag, heroId ) {
         return `https://eu.diablo3.com/es/profile/${tag}/hero/${heroId}`;
       },
       setHeroClass( hero ) {

@@ -7,19 +7,20 @@ export default new Vuex.Store( {
   state: {
     auth: {
       isLogged: false,
-      displayName: null,
+      email: null,
       uid: null,
       tokenId: null,
     },
   },
   getters: {
-    isUserLoggedIn: state => state.auth.isLogged,
+    isUserLogged: state => state.auth.isLogged,
+    loggedUserEmail: state => state.auth.email,
   },
   mutations: {
     logUserIn( state, userData ) {
       state.auth = {
         isLogged: true,
-        displayName: userData.displayName,
+        email: userData.email,
         uid: userData.uid,
         tokenId: userData.qa,
       };
@@ -27,7 +28,7 @@ export default new Vuex.Store( {
     logUserOut( state ) {
       state.auth = {
         isLogged: false,
-        displayName: null,
+        email: null,
         uid: null,
         tokenId: null,
       };

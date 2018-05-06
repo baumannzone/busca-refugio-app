@@ -21,6 +21,10 @@ export default {
     return db.collection( 'battle-tags' ).doc( tag ).get();
   },
 
+  getLastUpdate() {
+    return db.collection( 'last-update' ).doc( 'users-data' ).get();
+  },
+
   getUsers() {
     return db.collection( 'bnet-users-data' ).get();
   },

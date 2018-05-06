@@ -1,7 +1,6 @@
 <template>
-  <section class="login">
-    <h1>Logeado: {{ isLoggedIn }}</h1>
-    <v-form v-model="loginForm">
+  <section class="login-form">
+    <v-form v-model="loginForm" ref="loginForm">
       <v-text-field label="E-mail" v-model="email" :rules="emailRules" required></v-text-field>
       <v-text-field label="Password" v-model="password" :rules="passwordRules" required type="password"></v-text-field>
       <v-btn @click="submitLoginForm" :disabled="!loginForm">Click</v-btn>
@@ -11,16 +10,12 @@
 
 <script>
   import service from '@/services/auth';
-  import { mapGetters } from 'vuex';
 
   export default {
-    async created() {
-      console.debug( 'Created..' );
-    },
     data() {
       return {
-        loginForm: false, // valid
-        email: 'baumannzone@gmail.com',
+        loginForm: false,
+        email: '',
         emailRules: [
           v => !!v || 'Email is required',
         ],
@@ -32,16 +27,13 @@
     },
     methods: {
       submitLoginForm() {
-        if ( this.$refs.validForm.validate() ) {
-          // Native form submission is not yet supported
-          console.debug( this.email, this.password );
-          // this.logInUser();
+        if ( this.$refs.loginForm.validate() ) {
+          this.logInUser( this.email, this.password );
         }
       },
       logInUser( email, pass ) {
         service.logInUser( email, pass )
           .then( ( res ) => {
-            console.debug( res );
             this.$store.commit( 'logUserIn', res );
             this.$router.push( { name: 'Home' } );
           } )
@@ -55,19 +47,7 @@
           } );
       },
     },
-    computed: {
-      ...mapGetters( {
-        isLoggedIn: 'isUserLoggedIn',
-      } ),
-    },
   };
 </script>
 
-<style lang="stylus">
-  .hero-list
-    list-style none
-    li
-      display inline-block
-      width 150px
-      height 100px
-</style>
+<style lang="stylus"></style>
