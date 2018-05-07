@@ -6,23 +6,18 @@
     <template v-else>
       <div class="main-table">
         <v-data-table
-            :headers="headers"
-            :items="users"
-            hide-actions
-            class="elevation-1">
+          :headers="headers"
+          :items="users"
+          hide-actions
+          class="elevation-1">
           <template slot="items" slot-scope="props">
             <td>
               <b>{{ props.item.id }}</b>
             </td>
-            <!--<td>{{ props.item.guildName }}</td>-->
             <td>
               <ul class="hero-list">
                 <li v-for="(hero, index) in props.item.heroes" :key="index">
-                  <heroPortraitBox
-                      :hero="hero"
-                      :set-hero-class="setHeroClass(hero)"
-                      :hero-profile="heroProfileLink(props.item.tagWeb, hero.id)"
-                  />
+                  <heroPortraitBox :hero="hero" :tag-web="props.item.tagWeb"/>
                 </li>
               </ul>
             </td>
@@ -75,17 +70,6 @@
           .catch( ( err ) => {
             console.debug( err );
           } );
-      },
-      heroProfileLink( tag, heroId ) {
-        return `https://eu.diablo3.com/es/profile/${tag}/hero/${heroId}`;
-      },
-      setHeroClass( hero ) {
-        const slug = hero.classSlug;
-        const gender = this.setHeroGender( hero.gender );
-        return `${slug}-${gender}`;
-      },
-      setHeroGender( gender ) {
-        return gender === 0 ? 'male' : 'female';
       },
     },
   };
