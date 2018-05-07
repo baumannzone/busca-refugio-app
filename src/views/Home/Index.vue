@@ -6,10 +6,7 @@
     <template v-else>
       <div class="main-table">
         <v-data-table
-          :headers="headers"
-          :items="users"
-          hide-actions
-          class="elevation-1">
+          :headers="headers" :items="users" hide-actions class="elevation-1">
           <template slot="items" slot-scope="props">
             <td>
               <b>{{ props.item.id }}</b>
@@ -80,6 +77,7 @@
     list-style none
     li
       display inline-block
-      width 150px
-      height 100px
+      margin-bottom 15px
+      margin-top 10px
+      width 135px
 </style>

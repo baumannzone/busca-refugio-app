@@ -8,7 +8,7 @@
     <a :href="d3heroProfileLink" target="_blank">
       <span>{{ hero.name }}</span>
     </a>
-    <small class="level" :class="isHardcore">{{ hero.level }}</small>
+    <small class="level" :class="hardcoreClass">{{ hero.level }}</small>
   </div>
 </template>
 <script>
@@ -34,7 +34,7 @@
         const gender = this.setHeroGender( this.hero.gender );
         return `${slug}-${gender}`;
       },
-      isHardcore() {
+      hardcoreClass() {
         return this.hero.hardcore ? 'isHardcore' : '';
       },
       d3heroProfileLink() {
@@ -51,6 +51,10 @@
     .level
       margin-left 5px
       font-weight bold
+      &:before
+        content '('
+      &:after
+        content ')'
       &.isHardcore
         color orangered
 
