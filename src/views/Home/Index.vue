@@ -61,7 +61,7 @@
               const arr = doc.id.split( '#' );
               const tagWeb = `${arr[ 0 ]}-${arr[ 1 ]}`;
               // doc.data() is never undefined for query doc snapshots
-              this.users.push( { id: doc.id, ...doc.data(), tagWeb } );
+              this.users.push( { id: doc.id, ...doc.data().bnetData, tagWeb } );
             } );
           } )
           .catch( ( err ) => {

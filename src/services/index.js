@@ -26,6 +26,10 @@ export default {
   },
 
   getUsers() {
-    return db.collection( 'bnet-users-data' ).get();
+    return db.collection( 'users-data' ).get();
+  },
+
+  setClanRange( data, id ) {
+    return db.collection( 'users-data' ).doc( id ).update( { clanData: data } );
   },
 };
