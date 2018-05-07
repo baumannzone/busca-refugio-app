@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="d3-clan-app">
     <v-navigation-drawer fixed clipped v-model="drawer" app>
       <template v-if="isLogged">
         <v-toolbar flat class="transparent">

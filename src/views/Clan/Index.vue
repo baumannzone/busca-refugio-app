@@ -22,11 +22,5 @@
   };
 </script>
 
-<style lang="stylus">
-  .hero-list
-    list-style none
-    li
-      display inline-block
-      width 150px
-      height 100px
+<style lang="stylus" scoped>
 </style>
