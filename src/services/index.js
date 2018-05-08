@@ -29,7 +29,11 @@ export default {
     return db.collection( 'users-data' ).get();
   },
 
-  setClanRange( data, id ) {
-    return db.collection( 'users-data' ).doc( id ).update( { clanData: data } );
+  defaultClanRange( tag, data ) {
+    return db.collection( 'users-data' ).doc( tag ).set( { clanData: data } );
+  },
+
+  editClanRange( tag, data ) {
+    return db.collection( 'users-data' ).doc( tag ).update( { clanData: data } );
   },
 };
